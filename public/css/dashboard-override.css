@@ -1,0 +1,348 @@
+/**
+ * Dashboard Override CSS - Force Modern Styles
+ * This file overrides any conflicting styles to ensure modern design
+ */
+
+/* Force modern font */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background: #f9fafb !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Hide old header if it exists */
+.header, .old-header {
+    display: none !important;
+}
+
+/* Force app layout */
+.app-layout {
+    display: flex !important;
+    min-height: 100vh !important;
+}
+
+/* Force sidebar styles */
+.sidebar {
+    width: 280px !important;
+    background: white !important;
+    border-right: 1px solid #e5e7eb !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    height: 100vh !important;
+    z-index: 100 !important;
+}
+
+.sidebar-header {
+    padding: 1.5rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.sidebar-logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: #2563eb !important;
+    margin-bottom: 1rem !important;
+}
+
+.sidebar-user {
+    padding: 0.75rem !important;
+    background: #f9fafb !important;
+    border-radius: 0.5rem !important;
+}
+
+.user-name {
+    font-weight: 600 !important;
+    color: #111827 !important;
+    font-size: 0.875rem !important;
+}
+
+.user-role {
+    font-size: 0.75rem !important;
+    color: #6b7280 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* Force main content styles */
+.main-content {
+    flex: 1 !important;
+    margin-left: 280px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+.main-content.with-ai-sidebar {
+    margin-right: 60px !important;
+}
+
+.content-header {
+    background: white !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    padding: 1.5rem 2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.content-header h1 {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin: 0 !important;
+}
+
+.content-body {
+    flex: 1 !important;
+    padding: 2rem !important;
+}
+
+/* Force dashboard grid */
+.dashboard-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin-bottom: 2rem !important;
+}
+
+/* Force stat card styles */
+.stat-card {
+    background: white !important;
+    border-radius: 0.75rem !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+    border: 1px solid #e5e7eb !important;
+    transition: all 150ms ease-in-out !important;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+.stat-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 1rem !important;
+}
+
+.stat-title {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+}
+
+.stat-icon {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+}
+
+.stat-value {
+    font-size: 1.875rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.stat-change {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+}
+
+.stat-change.positive {
+    color: #10b981 !important;
+}
+
+.stat-change.negative {
+    color: #ef4444 !important;
+}
+
+/* Force button styles */
+.btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    padding: 0.75rem 1.5rem !important;
+    border: 1px solid transparent !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 150ms ease-in-out !important;
+}
+
+.btn-primary {
+    background: #2563eb !important;
+    color: white !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+}
+
+.btn-outline {
+    background: white !important;
+    border-color: #d1d5db !important;
+    color: #374151 !important;
+}
+
+.btn-outline:hover {
+    background: #f9fafb !important;
+    border-color: #9ca3af !important;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
+}
+
+/* Force table styles */
+.data-table {
+    background: white !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: hidden !important;
+}
+
+.table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.table th {
+    background: #f9fafb !important;
+    padding: 1rem 1.5rem !important;
+    text-align: left !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.table td {
+    padding: 1rem 1.5rem !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    font-size: 0.875rem !important;
+}
+
+.table tr:hover {
+    background: #f9fafb !important;
+}
+
+/* Force badge styles */
+.badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+
+.badge-primary {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+}
+
+.badge-success {
+    background: #d1fae5 !important;
+    color: #065f46 !important;
+}
+
+/* Force navigation styles */
+.nav-section {
+    margin-bottom: 1.5rem !important;
+}
+
+.nav-section-title {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.nav-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 0.5rem !important;
+    color: #374151 !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    transition: all 150ms ease-in-out !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.nav-item:hover {
+    background: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+.nav-item.active {
+    background: #eff6ff !important;
+    color: #1d4ed8 !important;
+}
+
+.nav-icon {
+    font-size: 1.125rem !important;
+}
+
+/* Hide any old dashboard elements */
+.dashboard-container,
+.dashboard-header,
+.stats-grid,
+.section-card,
+.step-progress,
+.quick-actions {
+    display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%) !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+    
+    .main-content.with-ai-sidebar {
+        margin-right: 0 !important;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .content-header {
+        padding: 1rem !important;
+    }
+    
+    .content-body {
+        padding: 1rem !important;
+    }
+}
