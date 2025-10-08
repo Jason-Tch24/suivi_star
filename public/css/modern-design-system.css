@@ -103,6 +103,7 @@ body {
 .app-layout {
   display: flex;
   min-height: 100vh;
+  background: var(--gray-50);
 }
 
 .sidebar {
@@ -114,6 +115,9 @@ body {
   position: fixed;
   height: 100vh;
   z-index: 100;
+  top: 0;
+  left: 0;
+  box-shadow: var(--shadow-lg);
 }
 
 .sidebar-header {
@@ -203,10 +207,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: var(--gray-50);
+  width: calc(100% - 280px);
+  position: relative;
 }
 
 .main-content.with-ai-sidebar {
   margin-right: 60px; /* Space for collapsed AI sidebar */
+  width: calc(100% - 340px);
 }
 
 .content-header {
@@ -541,25 +549,68 @@ body {
   text-align: center;
 }
 
+/* ===== LAYOUT FIXES ===== */
+/* Ensure proper layout structure */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.app-layout {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Fix sidebar positioning */
+.sidebar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Fix main content positioning */
+.main-content {
+  margin-left: 280px !important;
+  width: calc(100% - 280px) !important;
+  min-height: 100vh;
+  padding: 0;
+  position: relative;
+}
+
+/* Content area styling */
+.content-area {
+  padding: var(--space-6);
+  max-width: none;
+  width: 100%;
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
     transition: transform var(--transition-normal);
   }
-  
+
   .sidebar.open {
     transform: translateX(0);
   }
-  
+
   .main-content {
-    margin-left: 0;
+    margin-left: 0 !important;
+    width: 100% !important;
   }
-  
+
   .main-content.with-ai-sidebar {
     margin-right: 0;
   }
-  
+
   .dashboard-grid {
     grid-template-columns: 1fr;
   }

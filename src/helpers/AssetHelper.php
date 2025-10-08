@@ -85,5 +85,39 @@ class AssetHelper {
     public static function relativeJs($filename) {
         return self::getRelativeRoot() . 'public/js/' . $filename;
     }
+
+    /**
+     * Generate URL for application routes
+     */
+    public static function url($path = '/') {
+        $baseUrl = self::getBaseUrl();
+
+        // Clean the path
+        $path = '/' . trim($path, '/');
+
+        // For root path, just return base URL
+        if ($path === '/') {
+            return $baseUrl . '/';
+        }
+
+        // For other paths, use index.php with path parameter
+        return $baseUrl . '/index.php?path=' . urlencode($path);
+    }
+
+    /**
+     * Generate URL for direct PHP files (legacy support)
+     */
+    public static function directUrl($filename) {
+        $baseUrl = self::getBaseUrl();
+        return $baseUrl . '/' . ltrim($filename, '/');
+    }
+
+    /**
+     * Get asset path (generic method for any asset)
+     */
+    public static function asset($path) {
+        $baseUrl = self::getBaseUrl();
+        return $baseUrl . '/public/' . ltrim($path, '/');
+    }
 }
 ?>

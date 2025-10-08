@@ -6,9 +6,10 @@
 require_once __DIR__ . '/../../middleware/Auth.php';
 require_once __DIR__ . '/../../models/Aspirant.php';
 require_once __DIR__ . '/../../models/Ministry.php';
+require_once __DIR__ . '/../../helpers/AssetHelper.php';
 require_once __DIR__ . '/../../models/JourneyStep.php';
 require_once __DIR__ . '/../../models/User.php';
-require_once __DIR__ . '/../../components/AIAgentSidebar.php';
+
 
 Auth::requireRole('administrator');
 
@@ -27,8 +28,7 @@ $overdueTasks = $journeyStepModel->getOverdueSteps();
 // Get recent aspirants
 $recentAspirants = $aspirantModel->getAll(10, 0, 'active');
 
-// Initialize AI Agent Sidebar
-$aiSidebar = new AIAgentSidebar($user);
+
 
 $appConfig = require __DIR__ . '/../../../config/app.php';
 ?>
@@ -41,9 +41,12 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/modern-design-system.css">
-    <link rel="stylesheet" href="public/css/ai-sidebar.css">
-    <link rel="stylesheet" href="public/css/dashboard-override.css">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/modern-design-system.css'); ?>">
+>
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/dashboard-override.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/layout-fixes.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/final-layout.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/force-layout.css'); ?>">
 </head>
 <body>
     <div class="app-layout">
@@ -63,7 +66,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Overview</div>
-                    <a href="dashboard.php" class="nav-item active">
+                    <a href="<?php echo AssetHelper::url('/dashboard'); ?>" class="nav-item active">
                         <span class="nav-icon">📊</span>
                         Dashboard
                     </a>
@@ -83,11 +86,11 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
 
                 <div class="nav-section">
                     <div class="nav-section-title">STAR Process</div>
-                    <a href="aspirants.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/aspirants'); ?>" class="nav-item">
                         <span class="nav-icon">🌟</span>
                         Aspirants
                     </a>
-                    <a href="ministries.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/ministries'); ?>" class="nav-item">
                         <span class="nav-icon">⛪</span>
                         Ministries
                     </a>
@@ -95,7 +98,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
 
                 <div class="nav-section">
                     <div class="nav-section-title">Account</div>
-                    <a href="logout.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/logout'); ?>" class="nav-item">
                         <span class="nav-icon">🚪</span>
                         Sign Out
                     </a>
@@ -104,7 +107,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
         </aside>
 
         <!-- Main Content -->
-        <main class="main-content with-ai-sidebar">
+        <main class="main-content">
             <!-- Header -->
             <header class="content-header">
                 <div>
@@ -226,7 +229,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                                         </div>
                                         <?php endif; ?>
                                     </div>
-                                    <a href="/admin/steps/<?php echo $step['step_number']; ?>" class="btn btn-sm btn-outline" style="width: 100%;">
+                                    <a href="admin/steps/<?php echo $step['step_number']; ?>" class="btn btn-sm btn-outline" style="width: 100%;">
                                         Manage Step <?php echo $step['step_number']; ?>
                                     </a>
                                 </div>
@@ -251,14 +254,14 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                                 <span class="deadline">Due: <?php echo date('M j, Y', strtotime($task['deadline'])); ?></span>
                             </div>
                             <div class="task-actions">
-                                <a href="/admin/aspirants/<?php echo $task['id']; ?>" class="btn btn-sm">Review</a>
+                                <a href="admin/aspirants/<?php echo $task['id']; ?>" class="btn btn-sm">Review</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 <?php if (count($overdueTasks) > 5): ?>
                     <div class="view-all">
-                        <a href="/admin/overdue" class="btn btn-secondary">View All Overdue Tasks</a>
+                        <a href="admin/overdue" class="btn btn-secondary">View All Overdue Tasks</a>
                     </div>
                 <?php endif; ?>
             </div>
@@ -290,7 +293,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                                 </td>
                                 <td><?php echo date('M j, Y', strtotime($aspirant['application_date'])); ?></td>
                                 <td>
-                                    <a href="/admin/aspirants/<?php echo $aspirant['id']; ?>" class="btn btn-sm">View</a>
+                                    <a href="admin/aspirants/<?php echo $aspirant['id']; ?>" class="btn btn-sm">View</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -298,7 +301,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                 </table>
             </div>
                     <div style="text-align: center; margin-top: var(--space-4);">
-                        <a href="/admin/aspirants" class="btn btn-outline">View All Aspirants</a>
+                        <a href="admin/aspirants" class="btn btn-outline">View All Aspirants</a>
                     </div>
                 </div>
 
@@ -359,19 +362,12 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
             </div>
         </main>
     </div>
-    
-    <!-- AI Agent Sidebar -->
-    <?php echo $aiSidebar->render(); ?>
 
     <!-- Scripts -->
-    <script src="public/js/ai-sidebar.js"></script>
     <script>
-        // Initialize main content with AI sidebar
+        // Basic dashboard functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                mainContent.classList.add('with-ai-sidebar');
-            }
+            console.log('Dashboard loaded successfully');
         });
     </script>
 

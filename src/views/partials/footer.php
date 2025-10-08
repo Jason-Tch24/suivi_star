@@ -14,12 +14,12 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                 <ul>
                     <?php if (Auth::check()): ?>
                         <li><a href="<?php echo Auth::getDashboardUrl(); ?>">Dashboard</a></li>
-                        <li><a href="/profile">Profile</a></li>
-                        <li><a href="/documents">Resources</a></li>
+                        <li><a href="profile.php">Profile</a></li>
+                        <li><a href="documents.php">Resources</a></li>
                     <?php else: ?>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Apply to Volunteer</a></li>
-                        <li><a href="/">Home</a></li>
+                        <li><a href="login.php">Login</a></li>
+                        <li><a href="register.php">Apply to Volunteer</a></li>
+                        <li><a href="index.php">Home</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -27,9 +27,9 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
             <div class="footer-section">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="/help">Help Center</a></li>
-                    <li><a href="/contact">Contact Us</a></li>
-                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="help.php">Help Center</a></li>
+                    <li><a href="contact.php">Contact Us</a></li>
+                    <li><a href="faq.php">FAQ</a></li>
                 </ul>
             </div>
             

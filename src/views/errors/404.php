@@ -7,7 +7,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Not Found - <?php echo $appConfig['name']; ?></title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
     <style>
         .error-page {
             min-height: 100vh;

@@ -269,18 +269,74 @@ class Aspirant {
     public function count($status = null, $currentStep = null) {
         $sql = "SELECT COUNT(*) as count FROM aspirants WHERE 1=1";
         $params = [];
-        
+
         if ($status) {
             $sql .= " AND status = ?";
             $params[] = $status;
         }
-        
+
         if ($currentStep) {
             $sql .= " AND current_step = ?";
             $params[] = $currentStep;
         }
-        
+
         $result = $this->db->fetch($sql, $params);
         return $result['count'];
+    }
+
+    /**
+     * Get aspirants with filters
+     */
+    public function getFiltered($status = 'all', $ministry = 'all', $step = 'all', $search = '') {
+        $sql = "SELECT a.*, u.first_name, u.last_name, u.email, u.phone,
+                       js.name as current_step_name,
+                       am.name as assigned_ministry_name,
+                       m1.name as ministry_preference_1_name,
+                       m2.name as ministry_preference_2_name,
+                       m3.name as ministry_preference_3_name
+                FROM aspirants a
+                JOIN users u ON a.user_id = u.id
+                LEFT JOIN journey_steps js ON a.current_step = js.step_number
+                LEFT JOIN ministries am ON a.assigned_ministry_id = am.id
+                LEFT JOIN ministries m1 ON a.ministry_preference_1 = m1.id
+                LEFT JOIN ministries m2 ON a.ministry_preference_2 = m2.id
+                LEFT JOIN ministries m3 ON a.ministry_preference_3 = m3.id
+                WHERE 1=1";
+
+        $params = [];
+
+        // Status filter
+        if ($status !== 'all') {
+            $sql .= " AND a.status = ?";
+            $params[] = $status;
+        }
+
+        // Ministry filter
+        if ($ministry !== 'all') {
+            $sql .= " AND (a.ministry_preference_1 = ? OR a.ministry_preference_2 = ? OR a.ministry_preference_3 = ? OR a.assigned_ministry_id = ?)";
+            $params[] = $ministry;
+            $params[] = $ministry;
+            $params[] = $ministry;
+            $params[] = $ministry;
+        }
+
+        // Step filter
+        if ($step !== 'all') {
+            $sql .= " AND a.current_step = ?";
+            $params[] = $step;
+        }
+
+        // Search filter
+        if (!empty($search)) {
+            $sql .= " AND (u.first_name LIKE ? OR u.last_name LIKE ? OR u.email LIKE ?)";
+            $searchTerm = '%' . $search . '%';
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+
+        $sql .= " ORDER BY a.created_at DESC";
+
+        return $this->db->fetchAll($sql, $params);
     }
 }

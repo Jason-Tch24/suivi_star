@@ -279,9 +279,6 @@ class AIAgentSidebar
                         <button class="ai-action-btn" onclick="refreshInsights()">
                             🔄 Refresh Insights
                         </button>
-                        <button class="ai-action-btn" onclick="askAI()">
-                            💬 Ask AI
-                        </button>
                     </div>
                 </div>
             </div>
@@ -293,30 +290,6 @@ class AIAgentSidebar
                 </div>
                 <div class="ai-notification-badge" id="aiNotificationBadge">
                     <?php echo count($this->insights); ?>
-                </div>
-            </div>
-        </div>
-        
-        <!-- AI Chat Modal -->
-        <div id="aiChatModal" class="modal-overlay">
-            <div class="modal-content ai-chat-modal">
-                <div class="modal-header">
-                    <h2 class="modal-title">AI Assistant Chat</h2>
-                    <button class="modal-close" onclick="closeAIChat()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="ai-chat-messages" id="aiChatMessages">
-                        <div class="ai-message">
-                            <div class="ai-message-avatar">🤖</div>
-                            <div class="ai-message-content">
-                                <p>Hello! I'm your AI assistant. How can I help you with your STAR journey today?</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ai-chat-input">
-                        <input type="text" id="aiChatInput" placeholder="Ask me anything..." class="form-input">
-                        <button onclick="sendAIMessage()" class="btn btn-primary">Send</button>
-                    </div>
                 </div>
             </div>
         </div>

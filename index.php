@@ -45,7 +45,7 @@ switch ($path) {
         
     case '/logout':
         Auth::logout();
-        header('Location: /');
+        header('Location: index.php');
         exit;
         break;
         
@@ -91,9 +91,14 @@ switch ($path) {
         
     case '/aspirants':
         Auth::requireAnyRole(['administrator', 'mds', 'pastor']);
-        include 'src/views/aspirants/index.php';
+        include 'src/views/aspirants.php';
         break;
-        
+
+    case '/ministries':
+        Auth::requireAnyRole(['administrator', 'pastor', 'mds']);
+        include 'src/views/ministries.php';
+        break;
+
     case '/setup':
         include 'setup.php';
         break;

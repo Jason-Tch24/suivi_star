@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../middleware/Auth.php';
 require_once __DIR__ . '/../../models/Aspirant.php';
 require_once __DIR__ . '/../../models/Ministry.php';
 require_once __DIR__ . '/../../models/JourneyStep.php';
+require_once __DIR__ . '/../../helpers/AssetHelper.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../components/AISidebar.php';
 
@@ -47,9 +48,10 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/modern-design-system.css">
-    <link rel="stylesheet" href="public/css/ai-sidebar.css">
-    <link rel="stylesheet" href="public/css/dashboard-override.css">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/modern-design-system.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/ai-sidebar.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/dashboard-override.css'); ?>">
+    <link rel="stylesheet" href="<?php echo AssetHelper::asset('css/layout-fixes.css'); ?>">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -70,7 +72,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Overview</div>
-                    <a href="dashboard.php" class="nav-item active">
+                    <a href="<?php echo AssetHelper::url('/dashboard'); ?>" class="nav-item active">
                         <span class="nav-icon">📊</span>
                         Dashboard
                     </a>
@@ -78,11 +80,11 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
 
                 <div class="nav-section">
                     <div class="nav-section-title">STAR Process</div>
-                    <a href="aspirants.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/aspirants'); ?>" class="nav-item">
                         <span class="nav-icon">🌟</span>
                         Aspirants
                     </a>
-                    <a href="ministries.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/ministries'); ?>" class="nav-item">
                         <span class="nav-icon">⛪</span>
                         Ministries
                     </a>
@@ -106,7 +108,7 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
 
                 <div class="nav-section">
                     <div class="nav-section-title">Account</div>
-                    <a href="logout.php" class="nav-item">
+                    <a href="<?php echo AssetHelper::url('/logout'); ?>" class="nav-item">
                         <span class="nav-icon">🚪</span>
                         Sign Out
                     </a>

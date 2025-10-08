@@ -181,11 +181,29 @@ class Ministry {
     public function getOptions() {
         $ministries = $this->getAll('active');
         $options = [];
-        
+
         foreach ($ministries as $ministry) {
             $options[$ministry['id']] = $ministry['name'];
         }
-        
+
         return $options;
+    }
+
+    /**
+     * Get all ministries with statistics
+     */
+    public function getAllWithStats() {
+        $sql = "SELECT m.*,
+                       coordinator.first_name as coordinator_first_name,
+                       coordinator.last_name as coordinator_last_name,
+                       coordinator.email as coordinator_email,
+                       (SELECT COUNT(*) FROM aspirants a WHERE a.ministry_preference_1 = m.id OR a.ministry_preference_2 = m.id OR a.ministry_preference_3 = m.id) as interested_aspirants,
+                       (SELECT COUNT(*) FROM aspirants a WHERE a.assigned_ministry_id = m.id AND a.status = 'active') as assigned_aspirants,
+                       (SELECT COUNT(*) FROM aspirants a WHERE a.assigned_ministry_id = m.id AND a.status = 'completed') as completed_aspirants
+                FROM ministries m
+                LEFT JOIN users coordinator ON m.coordinator_id = coordinator.id
+                ORDER BY m.name";
+
+        return $this->db->fetchAll($sql);
     }
 }
