@@ -122,6 +122,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </p>
                 </div>
             <?php else: ?>
+                <?php
+                // Check if Google OAuth is configured
+                require_once __DIR__ . '/src/helpers/EnvLoader.php';
+                EnvLoader::load();
+                require_once __DIR__ . '/src/services/GoogleAuthService.php';
+                $googleAuth = new GoogleAuthService();
+                if ($googleAuth->isConfigured()):
+                ?>
+                <div class="google-auth" style="margin-bottom: 2rem;">
+                    <a href="auth/google/login.php" class="btn btn-google btn-full">
+                        <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+                            <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
+                            <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04a4.8 4.8 0 0 1-2.7.75 4.8 4.8 0 0 1-4.52-3.36H1.83v2.07A8 8 0 0 0 8.98 17z"/>
+                            <path fill="#FBBC05" d="M4.46 10.41a4.8 4.8 0 0 1-.25-1.41c0-.49.09-.97.25-1.41V5.52H1.83a8 8 0 0 0 0 7.37l2.63-2.48z"/>
+                            <path fill="#EA4335" d="M8.98 3.58c1.32 0 2.5.45 3.44 1.35l2.54-2.54A8 8 0 0 0 8.98 1a8 8 0 0 0-7.15 4.48l2.63 2.48c.61-1.84 2.35-3.38 4.52-3.38z"/>
+                        </svg>
+                        Quick Registration with Google
+                    </a>
+                    <p style="text-align: center; margin: 1rem 0; color: #666; font-size: 0.9rem;">
+                        Register instantly with your Google account, then complete your volunteer application
+                    </p>
+                </div>
+
+                <div class="auth-divider">
+                    <span>or fill out the form below</span>
+                </div>
+                <?php endif; ?>
+
                 <form method="POST" class="auth-form">
                     <div class="form-row">
                         <div class="form-group">

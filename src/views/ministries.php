@@ -67,12 +67,6 @@ $appConfig = require __DIR__ . '/../../config/app.php';
                         <span class="nav-icon">⛪</span>
                         Ministries
                     </a>
-                    <?php if (in_array($user['role'], ['administrator', 'pastor'])): ?>
-                        <a href="users.php" class="nav-item">
-                            <span class="nav-icon">👥</span>
-                            Users
-                        </a>
-                    <?php endif; ?>
                 </div>
 
                 <div class="nav-section">

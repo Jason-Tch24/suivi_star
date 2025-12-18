@@ -7,6 +7,48 @@
 2. **Environment Setup**: Configure `.env` file with correct database credentials
 3. **Database Installation**: Run setup.php to create tables and seed initial data
 4. **User Account Creation**: Set up initial administrator accounts
+5. **Google Authentication** (Optional): Configure Google OAuth for user registration and login
+
+### Google Authentication Setup
+
+#### Prerequisites
+- Google Cloud Console account
+- Composer installed on your system
+
+#### Installation Steps
+
+1. **Install Dependencies**
+   ```bash
+   php setup-google-auth.php
+   ```
+   Or manually:
+   ```bash
+   composer install
+   ```
+
+2. **Configure Google Cloud Console**
+   - Go to https://console.cloud.google.com/
+   - Create or select a project
+   - Enable Google+ API
+   - Create OAuth 2.0 credentials
+   - Add authorized origins: `http://localhost` (or your domain)
+   - Add redirect URI: `http://localhost/suivie_star/auth/google/callback.php`
+
+3. **Update Environment Configuration**
+   Add to your `.env` file:
+   ```env
+   GOOGLE_CLIENT_ID=your_google_client_id_here
+   GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+   ```
+
+4. **Test Implementation**
+   Visit: `http://localhost/suivie_star/test-google-auth.php`
+
+#### Features Added
+- **Quick Registration**: Users can register instantly with Google
+- **Secure Login**: OAuth 2.0 authentication via Google
+- **Profile Integration**: Google profile pictures and information
+- **Unified User Management**: Google and local accounts in same system
 
 ### User Management
 

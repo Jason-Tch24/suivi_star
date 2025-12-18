@@ -131,13 +131,13 @@ $appConfig = ['name' => 'STAR Volunteer Management System'];
                 
                 <div class="nav-section">
                     <div class="nav-section-title">Management</div>
-                    <a href="admin/users.php" class="nav-item">
-                        <span class="nav-icon">👥</span>
-                        Users
+                    <a href="aspirants.php" class="nav-item">
+                        <span class="nav-icon">🌟</span>
+                        Aspirants
                     </a>
-                    <a href="admin/user-wizard.php" class="nav-item">
-                        <span class="nav-icon">➕</span>
-                        Add User
+                    <a href="ministries.php" class="nav-item">
+                        <span class="nav-icon">⛪</span>
+                        Ministries
                     </a>
                 </div>
                 
@@ -299,18 +299,7 @@ $appConfig = ['name' => 'STAR Volunteer Management System'];
                         <div class="btn btn-sm btn-primary" style="width: 100%;">Create User</div>
                     </div>
                     
-                    <div class="stat-card" style="cursor: pointer;">
-                        <div class="stat-header">
-                            <div class="stat-title">Manage Users</div>
-                            <div class="stat-icon" style="background: var(--role-administrator)20; color: var(--role-administrator);">
-                                👥
-                            </div>
-                        </div>
-                        <div style="color: var(--gray-600); font-size: var(--text-sm); margin-bottom: var(--space-4);">
-                            Edit, update, and manage all system users
-                        </div>
-                        <div class="btn btn-sm btn-outline" style="width: 100%;">User Management</div>
-                    </div>
+
                 </div>
             </div>
         </main>

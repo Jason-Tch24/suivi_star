@@ -41,19 +41,41 @@ class User {
     public function findByEmail($email) {
         return $this->db->fetch("SELECT * FROM users WHERE email = ?", [$email]);
     }
+
+    /**
+     * Find user by Google ID
+     */
+    public function findByGoogleId($googleId) {
+        return $this->db->fetch("SELECT * FROM users WHERE google_id = ?", [$googleId]);
+    }
     
     /**
      * Authenticate user
      */
     public function authenticate($email, $password) {
         $user = $this->findByEmail($email);
-        
-        if ($user && password_verify($password, $user['password_hash'])) {
+
+        if ($user && $user['auth_provider'] === 'local' && password_verify($password, $user['password_hash'])) {
             // Update last login
             $this->updateLastLogin($user['id']);
             return $user;
         }
-        
+
+        return false;
+    }
+
+    /**
+     * Authenticate Google user
+     */
+    public function authenticateGoogle($googleId) {
+        $user = $this->findByGoogleId($googleId);
+
+        if ($user && $user['auth_provider'] === 'google') {
+            // Update last login
+            $this->updateLastLogin($user['id']);
+            return $user;
+        }
+
         return false;
     }
     

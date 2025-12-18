@@ -30,7 +30,6 @@ $appConfig = require __DIR__ . '/../../../config/app.php';
                         <a href="dashboard.php">Dashboard</a>
                         <a href="admin_aspirants.php">Aspirants</a>
                         <a href="admin_ministries.php">Ministries</a>
-                        <a href="admin_users.php">Users</a>
                     <?php elseif ($user['role'] === 'pastor'): ?>
                         <a href="dashboard.php">Dashboard</a>
                         <a href="pastor_analytics.php">Analytics</a>

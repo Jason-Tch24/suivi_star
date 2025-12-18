@@ -8,9 +8,13 @@ require_once __DIR__ . '/User.php';
 
 class Aspirant {
     private $db;
-    
-    public function __construct() {
-        $this->db = Database::getInstance();
+
+    public function __construct($database = null) {
+        if ($database) {
+            $this->db = $database;
+        } else {
+            $this->db = Database::getInstance();
+        }
     }
     
     /**
@@ -102,9 +106,9 @@ class Aspirant {
     }
     
     /**
-     * Update aspirant
+     * Update aspirant (simple version for backward compatibility)
      */
-    public function update($id, $data) {
+    public function updateSimple($id, $data) {
         $data['updated_at'] = date('Y-m-d H:i:s');
         return $this->db->update('aspirants', $data, 'id = :id', ['id' => $id]);
     }
@@ -338,5 +342,151 @@ class Aspirant {
         $sql .= " ORDER BY a.created_at DESC";
 
         return $this->db->fetchAll($sql, $params);
+    }
+
+    /**
+     * Find aspirant by ID with ministry information (for API)
+     */
+    public function findByIdWithMinistry($id) {
+        $sql = "SELECT a.*, u.first_name, u.last_name, u.email, u.phone, u.status,
+                       am.name as assigned_ministry_name
+                FROM aspirants a
+                JOIN users u ON a.user_id = u.id
+                LEFT JOIN ministries am ON a.assigned_ministry_id = am.id
+                WHERE a.id = ?";
+
+        return $this->db->fetch($sql, [$id]);
+    }
+
+    /**
+     * Update aspirant information (comprehensive version for API)
+     */
+    public function updateComplete($id, $data) {
+        // First update the user information
+        $userData = [
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        // Get the user_id for this aspirant
+        $aspirant = $this->db->fetch("SELECT user_id FROM aspirants WHERE id = ?", [$id]);
+        if (!$aspirant) {
+            return false;
+        }
+
+        $userUpdated = $this->db->update('users', $userData, ['id' => $aspirant['user_id']]);
+
+        // Then update the aspirant-specific information
+        $aspirantData = [
+            'status' => $data['status'],
+            'current_step' => $data['current_step'],
+            'assigned_ministry_id' => $data['assigned_ministry_id'],
+            'notes' => $data['notes'] ?? null,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        $aspirantUpdated = $this->db->update('aspirants', $aspirantData, ['id' => $id]);
+
+        return $userUpdated && $aspirantUpdated;
+    }
+
+    /**
+     * Delete aspirant and associated user
+     */
+    public function delete($id) {
+        // Get the user_id for this aspirant
+        $aspirant = $this->db->fetch("SELECT user_id FROM aspirants WHERE id = ?", [$id]);
+        if (!$aspirant) {
+            return false;
+        }
+
+        // Start transaction
+        $this->db->beginTransaction();
+
+        try {
+            // Delete aspirant record first (due to foreign key constraints)
+            $aspirantDeleted = $this->db->delete('aspirants', ['id' => $id]);
+
+            // Delete user record
+            $userDeleted = $this->db->delete('users', ['id' => $aspirant['user_id']]);
+
+            if ($aspirantDeleted && $userDeleted) {
+                $this->db->commit();
+                return true;
+            } else {
+                $this->db->rollback();
+                return false;
+            }
+        } catch (Exception $e) {
+            $this->db->rollback();
+            return false;
+        }
+    }
+    
+    /**
+     * Update aspirant status with email notification
+     */
+    public function updateStatusWithEmail($id, $newStatus) {
+        // Get current aspirant data including user info
+        $currentAspirant = $this->findById($id);
+        if (!$currentAspirant) {
+            return false;
+        }
+        
+        $oldStatus = $currentAspirant['status'];
+        
+        // Update the status
+        $result = $this->updateSimple($id, ['status' => $newStatus]);
+        
+        if ($result && $oldStatus !== $newStatus) {
+            // Send email notification
+            try {
+                require_once __DIR__ . '/../services/EmailService.php';
+                $emailService = new EmailService();
+                $emailService->sendStatusChangeEmail($currentAspirant, $oldStatus, $newStatus);
+            } catch (Exception $e) {
+                error_log('Failed to send status change email: ' . $e->getMessage());
+                // Don't fail the status update if email fails
+            }
+        }
+        
+        return $result;
+    }
+
+    /**
+     * Advance aspirant to next step with email notification
+     */
+    public function advanceStepWithEmail($aspirantId) {
+        // Get current aspirant data
+        $aspirant = $this->findById($aspirantId);
+        if (!$aspirant) {
+            return false;
+        }
+        
+        $result = $this->advanceToNextStep($aspirantId);
+        
+        if ($result) {
+            // Get updated aspirant data to get new step info
+            $updatedAspirant = $this->findById($aspirantId);
+            
+            // Send step progression email
+            try {
+                require_once __DIR__ . '/../services/EmailService.php';
+                $emailService = new EmailService();
+                $emailService->sendStepProgressEmail(
+                    $updatedAspirant, 
+                    $updatedAspirant['current_step'],
+                    $updatedAspirant['current_step_name'] ?? "Étape {$updatedAspirant['current_step']}"
+                );
+            } catch (Exception $e) {
+                error_log('Failed to send step progress email: ' . $e->getMessage());
+                // Don't fail the step advancement if email fails
+            }
+        }
+        
+        return $result;
     }
 }

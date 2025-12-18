@@ -7,6 +7,7 @@ require_once __DIR__ . '/../src/middleware/Auth.php';
 require_once __DIR__ . '/../src/models/User.php';
 require_once __DIR__ . '/../src/models/Aspirant.php';
 require_once __DIR__ . '/../src/models/Ministry.php';
+require_once __DIR__ . '/../src/services/EmailService.php';
 
 // Redirect if already logged in
 if (Auth::check()) {
@@ -84,7 +85,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'started_at' => date('Y-m-d H:i:s')
             ]);
             
-            $success = 'Your application has been submitted successfully! You can now log in to track your STAR journey.';
+            // Send welcome email
+            try {
+                $emailService = new EmailService();
+                $emailService->sendWelcomeEmail([
+                    'email' => $email,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName
+                ], $aspirantData);
+                
+                $success = 'Your application has been submitted successfully! A welcome email has been sent to your inbox. You can now log in to track your STAR journey.';
+            } catch (Exception $e) {
+                // Email failed but registration succeeded
+                error_log('Failed to send welcome email: ' . $e->getMessage());
+                $success = 'Your application has been submitted successfully! You can now log in to track your STAR journey. (Note: Welcome email could not be sent)';
+            }
             
         } catch (Exception $e) {
             $error = 'Registration failed. Please try again.';
